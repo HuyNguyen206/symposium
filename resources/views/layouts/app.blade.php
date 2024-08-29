@@ -26,9 +26,13 @@
                     </div>
                 </header>
             @endisset
-
             <!-- Page Content -->
-            <main>
+            <main class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                @if(session('message'))
+                    <div class="bg-green-100 px-4 py-4 rounded-lg shadow-sm sm:rounded-lg">
+                        <div class="text-sm">{{ session('message') }}</div>
+                    </div>
+                @endif
                 {{ $slot }}
             </main>
         </div>

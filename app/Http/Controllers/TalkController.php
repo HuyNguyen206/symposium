@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TalkType;
 use App\Models\Talk;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Symfony\Component\HttpFoundation\Response;
 
 class TalkController extends Controller
 {
@@ -12,7 +15,9 @@ class TalkController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
 
+        return view('talks.index', ['talks' => $user->talks()->latest()->get(), 'presenter' => $user]);
     }
 
     /**
@@ -30,11 +35,15 @@ class TalkController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|unique:talks|max:255',
-            'abstract' => 'required|unique:talks|max:255',
-//            'body' => 'required'
+            'length' => 'required',
+            'type' => Rule::enum(TalkType::class),
+            'abstract' => '',
+            'organizer_notes' => ''
         ]);
 
-        dd($data);
+        Talk::create($data + ['user_id' => $request->user()->id]);
+
+        return redirect(route('talks.index'))->with('message', 'Post created!');
     }
 
     /**
@@ -42,7 +51,7 @@ class TalkController extends Controller
      */
     public function show(Talk $talk)
     {
-        //
+        return view('talks.show', compact('talk'));
     }
 
     /**
@@ -50,7 +59,9 @@ class TalkController extends Controller
      */
     public function edit(Talk $talk)
     {
-        //
+        abort_if(auth()->user()->id !== $talk->user_id, code: Response::HTTP_FORBIDDEN, message: 'You do not have permission to edit talk');
+
+        return view('talks.edit', compact('talk'));
     }
 
     /**
@@ -58,7 +69,19 @@ class TalkController extends Controller
      */
     public function update(Request $request, Talk $talk)
     {
-        //
+        abort_if(auth()->user()->id !== $talk->user_id, code: Response::HTTP_FORBIDDEN, message: 'You do not have permission to edit talk');
+
+        $data = $request->validate([
+            'title' => ['sometimes', Rule::unique('talks')->ignoreModel($talk), 'max:255'],
+            'length' => 'sometimes|required',
+            'type' => Rule::enum(TalkType::class),
+            'abstract' => '',
+            'organizer_notes' => ''
+        ]);
+
+        $talk->update($data);
+
+        return redirect(route('talks.index'))->with('message', 'Post created!');
     }
 
     /**
@@ -66,6 +89,10 @@ class TalkController extends Controller
      */
     public function destroy(Talk $talk)
     {
-        //
+        abort_if(auth()->user()->id !== $talk->user_id, code: Response::HTTP_FORBIDDEN, message: 'You do not have permission to delete talk');
+
+        $talk->delete();
+
+        return redirect()->back()->with('message', 'Delete successfully');
     }
 }
