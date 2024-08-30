@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form method="post" action="{{route('talks.store')}}">
+                    <form method="post" action="{{ route('talks.store') }}">
                         @csrf
                         <div class="space-y-12">
                             <div class="border-b border-gray-900/10 pb-12">
@@ -28,8 +28,8 @@
                                             <label for="type" class="block text-sm font-medium leading-6 text-gray-900">Type</label>
                                             <div class="mt-2">
                                                 <select id="type" name="type" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                                                    @foreach(\App\Enums\TalkType::cases() as $case)
-                                                        <option value="{{$case->value}}" @selected(@old('type') === $case->value)>{{$case->value}}</option>
+                                                    @foreach (\App\Enums\TalkType::cases() as $case)
+                                                        <option value="{{ $case->value }}" @selected(@old('type') === $case->value)>{{ $case->value }}</option>
                                                     @endforeach
                                                     {{--                                <option>Standard</option>--}}
                                                     {{--                                <option>Lighting</option>--}}
@@ -53,7 +53,7 @@
                                     <div class="col-span-full">
                                         <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Abstract</label>
                                         <div class="mt-2">
-                                            <textarea id="abstract" name="abstract" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{{@old('abstract') ?? '' }}</textarea>
+                                            <textarea id="abstract" name="abstract" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{{ @old('abstract') ?? '' }}</textarea>
                                         </div>
                                         <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
                                         <x-input-error :messages="$errors->get('abstract')"></x-input-error>
@@ -62,7 +62,7 @@
                                     <div class="col-span-full">
                                         <label for="organization_notes" class="block text-sm font-medium leading-6 text-gray-900">Organization notes</label>
                                         <div class="mt-2">
-                                            <textarea id="organizer_notes" name="organizer_notes" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{{@old('organizer_notes') ?? '' }}</textarea>
+                                            <textarea id="organizer_notes" name="organizer_notes" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{{ @old('organizer_notes') ?? '' }}</textarea>
                                         </div>
                                         <p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>
                                         <x-input-error :messages="$errors->get('organizer_notes')"></x-input-error>

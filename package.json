@@ -5,7 +5,12 @@
         "dev": "vite",
         "format": "npx prettier --write resources/",
         "build": "vite build",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "lint-staged": {
+            "**/*.php*": [
+                "vendor/bin/duster fix"
+            ]
+        }
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",

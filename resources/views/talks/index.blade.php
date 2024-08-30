@@ -6,7 +6,7 @@
             </h2>
             <x-nav-link
                 class="hover:text-white focus:text-white inline-block text-white px-4 py-2 rounded-2xl bg-blue-600"
-                href="{{route('talks.create')}}">Create talk
+                href="{{ route('talks.create') }}">Create talk
             </x-nav-link>
         </div>
     </x-slot>
@@ -47,36 +47,36 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($talks as $talk)
+                            @foreach ($talks as $talk)
                                 <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                                     <th scope="row"
                                         class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        <a class="underline" href="{{route('talks.show', $talk->id)}}">
-                                            {{$talk->title}}
+                                        <a class="underline" href="{{ route('talks.show', $talk->id) }}">
+                                            {{ $talk->title }}
                                         </a>
                                     </th>
                                     <td class="px-6 py-4">
-                                        {{$presenter->name}}
+                                        {{ $presenter->name }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{$talk->type}}
+                                        {{ $talk->type }}
 
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{$talk->length}}
+                                        {{ $talk->length }}
 
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ Str::limit($talk->abstract,50)}}
+                                        {{ Str::limit($talk->abstract,50) }}
 
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{Str::limit($talk->organizer_notes,50)}}
+                                        {{ Str::limit($talk->organizer_notes,50) }}
 
                                     </td>
 
                                     <td class="px-6 py-4">
-                                        {{$talk->created_at}}
+                                        {{ $talk->created_at }}
                                     </td>
                                     <td>
                                         <div class="flex">

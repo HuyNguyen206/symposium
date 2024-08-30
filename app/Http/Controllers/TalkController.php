@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TalkType;
+use App\Http\Requests\UpdateTalkRequest;
 use App\Models\Talk;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -38,7 +39,7 @@ class TalkController extends Controller
             'length' => 'required',
             'type' => Rule::enum(TalkType::class),
             'abstract' => '',
-            'organizer_notes' => ''
+            'organizer_notes' => '',
         ]);
 
         Talk::create($data + ['user_id' => $request->user()->id]);
@@ -51,7 +52,9 @@ class TalkController extends Controller
      */
     public function show(Talk $talk)
     {
-        return view('talks.show', compact('talk'));
+        abort_if(auth()->user()->id !== $talk->user_id, code: Response::HTTP_FORBIDDEN, message: 'You do not have permission to show this talk');
+
+        return view('talks.show', ['talk' => $talk]);
     }
 
     /**
@@ -61,25 +64,15 @@ class TalkController extends Controller
     {
         abort_if(auth()->user()->id !== $talk->user_id, code: Response::HTTP_FORBIDDEN, message: 'You do not have permission to edit talk');
 
-        return view('talks.edit', compact('talk'));
+        return view('talks.edit', ['talk' => $talk]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Talk $talk)
+    public function update(UpdateTalkRequest $request, Talk $talk)
     {
-        abort_if(auth()->user()->id !== $talk->user_id, code: Response::HTTP_FORBIDDEN, message: 'You do not have permission to edit talk');
-
-        $data = $request->validate([
-            'title' => ['sometimes', Rule::unique('talks')->ignoreModel($talk), 'max:255'],
-            'length' => 'sometimes|required',
-            'type' => Rule::enum(TalkType::class),
-            'abstract' => '',
-            'organizer_notes' => ''
-        ]);
-
-        $talk->update($data);
+        $talk->update($request->validated());
 
         return redirect(route('talks.index'))->with('message', 'Post created!');
     }
