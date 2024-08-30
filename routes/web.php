@@ -19,4 +19,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('talks', TalkController::class);
 });
 
+Route::get('auth/{provider}/login', [\App\Http\Controllers\SocialiteProviderController::class, 'login'])->name('auth.login');
+
+Route::get('auth/{provider}/callback', [\App\Http\Controllers\SocialiteProviderController::class, 'redirect']);
+
 require __DIR__ . '/auth.php';

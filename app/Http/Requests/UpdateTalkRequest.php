@@ -13,7 +13,7 @@ class UpdateTalkRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->id === $this->talk->user_id;
+        return $this->user()->can('update', $this->talk);
     }
 
     /**
