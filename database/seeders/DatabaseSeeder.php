@@ -26,6 +26,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        Conference::factory(5)->create();
+        //        Conference::factory(5)->create();
     }
 }
