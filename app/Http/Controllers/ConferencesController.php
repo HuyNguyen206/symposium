@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Conference;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ConferencesController extends Controller
 {
@@ -61,5 +62,12 @@ class ConferencesController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function toggleTheFavorite(Conference $conference)
+    {
+        Auth::user()->favoritedConferences()->toggle($conference);
+
+        return redirect()->back();
     }
 }

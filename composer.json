@@ -10,10 +10,12 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^11.9",
+        "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.15",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
         "codeception/codeception": "^5.1",
         "codeception/module-asserts": "^3.0",
         "codeception/module-laravel": "^3.1",
